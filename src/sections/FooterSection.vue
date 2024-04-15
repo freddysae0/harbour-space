@@ -1,5 +1,5 @@
 <template>
-  <footer class="px-[80px] flex flex-wrap gap-[64px] h-[86.08px]">
+  <footer class="bg-white px-[80px] flex flex-wrap gap-[64px] h-[86.08px]">
     <div
       v-for="item in items"
       :key="item.title"

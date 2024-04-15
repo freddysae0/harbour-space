@@ -1,6 +1,6 @@
 <template>
   <NavbarSection></NavbarSection>
-  <main><HeroSection></HeroSection></main>
+  <main class="px-12"><HeroSection></HeroSection></main>
   <FooterSection class="fixed bottom-0 w-full"></FooterSection>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 <style>
 :root {
   background-color: #ffffff;
-
+  overflow-x: hidden;
   --primary: #685dc5;
   --secondary: #4fa16c;
   --text-1: #535353;
