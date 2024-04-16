@@ -5,20 +5,30 @@
     >
       <div class="background-decoration"></div>
     </div>
-    <div class="flex gap-10 justify-center overflow-auto">
+    <div
+      class="textimonials-container flex gap-10 overflow-x-auto snap-mandatory snap-x"
+      ref="testimonialsContainer"
+      @scroll="handleScroll"
+    >
       <div
         v-for="testimonial in testimonials"
         :key="testimonial.id"
-        class="card min-w-[800px]"
+        class="testimonial-card card min-w-[800px] snap-center"
       >
         <div
           class="h-[149px] pl-[41px] pr-[86px] flex justify-between items-center bg-white"
         >
           <div class="w-fit flex items-center">
-            <div class="flex items-center">
+            <div
+              id="testimonial-avatar-box"
+              class="flex items-center w-[80px] h-[80px] overflow-hidden rounded-full"
+              ref="avatarBox"
+            >
               <img
-                class="rounded-full"
+                id="testimonial-avatar"
+                class="rounded-full w-[80px] h-[80px]"
                 :src="IreneAvatar"
+                ref="avatarImg"
                 alt="Testimonial avatar"
               />
             </div>
@@ -31,7 +41,7 @@
             </div>
           </div>
           <img
-            class="w-[18px] h-[18px]"
+            class="w-[18px] h-[18px] linkedin-icon"
             :src="LinkedinImg"
             alt="Linkedin icon"
           />
@@ -66,12 +76,67 @@ export default {
       IreneAvatar,
       LinkedinImg,
       testimonials: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      scrollTimeout: null,
     };
+  },
+  methods: {
+    isInViewportHorizontal(elem) {
+      const rect = elem.getBoundingClientRect();
+      return (
+        rect.left >= 0 &&
+        rect.right <=
+          (window.innerWidth || document.documentElement.clientWidth)
+      );
+    },
+    scrollTestimonials() {
+      if (this.$refs.testimonialsContainer.scrollLeft < 1000) {
+        this.$refs.testimonialsContainer.scrollLeft += 1000;
+      }
+
+      this.$refs.testimonialsContainer.scrollLeft = 1000;
+    },
+    handleScroll() {
+      // Clean the previous timer if exists
+
+      this.$refs.avatarBox.map((avatarBox) => {
+        if (this.isInViewportHorizontal(avatarBox)) {
+          avatarBox.style.scale = "100%";
+        } else {
+          avatarBox.style.scale = "30%";
+        }
+      });
+
+      this.$refs.avatarImg.map((avatar) => {
+        if (this.isInViewportHorizontal(avatar)) {
+          avatar.style.scale = "100%";
+        } else {
+          avatar.style.scale = "300%";
+        }
+      });
+    },
+  },
+  mounted() {
+    this.scrollTestimonials();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.linkedin-icon {
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.linkedin-icon:hover {
+  background-color: aqua;
+}
+#testimonial-avatar {
+  transition: all 0.5s;
+}
+#testimonial-avatar-box {
+  transition: all 0.5s;
+}
+
 .background-decoration {
   top: 0px;
   background-image: url("@/assets/hero/slab-background.png");
@@ -81,6 +146,13 @@ export default {
   width: 1120px;
   height: 400px;
   z-index: -1;
+}
+
+.textimonials-container {
+  scroll-snap-type: x mandatory;
+}
+.testimonial-card {
+  scroll-snap-align: center;
 }
 
 .testimonial-name {
