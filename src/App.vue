@@ -1,6 +1,9 @@
 <template>
   <NavbarSection></NavbarSection>
-  <main class="px-12"><HeroSection></HeroSection></main>
+  <main class="flex flex-col justify-center mb-28">
+    <HeroSection class="mb-[60px]"></HeroSection>
+    <AboutSection></AboutSection>
+  </main>
   <FooterSection class="fixed bottom-0 w-full"></FooterSection>
 </template>
 
@@ -8,9 +11,10 @@
 import NavbarSection from "./sections/NavbarSection.vue";
 import FooterSection from "./sections/FooterSection.vue";
 import HeroSection from "./sections/HeroSection.vue";
+import AboutSection from "./sections/AboutSection.vue";
 export default {
   name: "App",
-  components: { NavbarSection, FooterSection, HeroSection },
+  components: { NavbarSection, FooterSection, HeroSection, AboutSection },
 };
 </script>
 
@@ -25,12 +29,10 @@ export default {
   --border-1: #dadada;
 }
 .title-section {
-  /* MA Interaction Desig */
-
+  font-weight: 500;
   font-style: normal;
   font-size: 45px;
   line-height: 56px;
-  /* or 117% */
   letter-spacing: -0.6px;
 
   color: var(--primary);
