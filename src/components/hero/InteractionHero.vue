@@ -1,7 +1,7 @@
 <template>
   <div class="max-w-[440px] h-fit flex flex-col gap-[40px] relative">
     <img class="absolute interaction-img" :src="InteractionImg" />
-    <h1 class="title-section font-normal">Interaction Design Apprenticeship</h1>
+    <h1 class="title-section">Interaction Design Apprenticeship</h1>
     <h2 class="font-normal font-apercu">
       A fully funded work-study program to launch your tech career
     </h2>

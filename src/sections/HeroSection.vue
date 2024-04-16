@@ -1,9 +1,9 @@
 <template>
-  <section id="hero" class="min-h-screen flex">
-    <div class="w-1/2 flex justify-center items-center">
+  <section id="hero" class="min-h-[100vh] flex justify-center gap-[159px]">
+    <div class="w-fit flex justify-center items-center">
       <InteractionHero></InteractionHero>
     </div>
-    <div class="w-1/2 flex justify-center items-center">
+    <div class="w-fit flex justify-center items-center">
       <DeadlineHero></DeadlineHero>
     </div>
   </section>
