@@ -8,6 +8,7 @@ module.exports = {
         white: "#ffffff",
         primary: "#685DC5",
         secondary: "#4fa16c",
+        box: "#FBFBFB",
         text: {
           200: "#6A6A6A",
           100: "#535353",
