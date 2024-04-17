@@ -38,6 +38,7 @@ export default {
   --text-1: #535353;
   --text-2: #6a6a6a;
   --text-3: #959595;
+  --text-4: #b3b3b3;
   --box-1: #fbfbfb;
   --border-1: #dadada;
 }
