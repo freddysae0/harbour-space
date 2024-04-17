@@ -29,7 +29,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+@import "@/variables";
 :root {
   background-color: #ffffff;
   overflow-x: hidden;
@@ -45,11 +46,19 @@ export default {
 .title-section {
   font-weight: 500;
   font-style: normal;
-  font-size: 45px;
-  line-height: 56px;
-  letter-spacing: -0.6px;
+  font-size: 35px;
+  line-height: 44px;
+  letter-spacing: -0.44px;
 
   color: var(--primary);
+
+  @media (min-width: $sm) {
+    font-size: 45px;
+    line-height: 56px;
+    letter-spacing: -0.6px;
+
+    color: var(--primary);
+  }
 }
 .card {
   border: 1px solid var(--border-1);

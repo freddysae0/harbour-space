@@ -1,5 +1,7 @@
 <template>
-  <button class="px-[40px] py-[16px] bg-primary w-fit">Apply Now</button>
+  <button class="px-[38px] md:px-[40px] py-[16px] bg-primary w-fit">
+    Apply Now
+  </button>
 </template>
 
 <script>
