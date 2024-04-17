@@ -11,6 +11,7 @@ module.exports = {
         box: "#FBFBFB",
         border: "#DADADA",
         text: {
+          400: "#b3b3b3",
           300: "#959595",
           200: "#6A6A6A",
           100: "#535353",

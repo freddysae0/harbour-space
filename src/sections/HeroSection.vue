@@ -1,5 +1,5 @@
 <template>
-  <section id="hero" class="min-h-[100vh] flex justify-center gap-[159px]">
+  <section id="hero" class="h-fit py-[200px] flex justify-center gap-[159px]">
     <div class="w-fit flex justify-center items-center">
       <InteractionHero></InteractionHero>
     </div>

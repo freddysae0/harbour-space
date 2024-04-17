@@ -40,11 +40,13 @@
               </div>
             </div>
           </div>
-          <img
-            class="w-[18px] h-[18px] linkedin-icon"
-            :src="LinkedinImg"
-            alt="Linkedin icon"
-          />
+
+          <p
+            ref="linkedin"
+            class="linkedin-icon text-text-400 text-[22px] font-apercu font-extrabold"
+          >
+            in
+          </p>
         </div>
         <div
           class="h-[310px] bg-box flex flex-col justify-center items-center gap-[32px]"
@@ -124,11 +126,12 @@ export default {
 <style lang="scss" scoped>
 .linkedin-icon {
   cursor: pointer;
-  transition: all 0.5s;
+  transition: all 0.2s;
+  color: var(--text-4);
 }
 
 .linkedin-icon:hover {
-  background-color: aqua;
+  color: var(--primary);
 }
 #testimonial-avatar {
   transition: all 0.5s;
