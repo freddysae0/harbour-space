@@ -3,17 +3,19 @@
   <main class="flex flex-col justify-center mb-28">
     <HeroSection class="mb-[60px]"></HeroSection>
     <AboutSection class="mb-[260px]"></AboutSection>
-    <TestimonialsSection></TestimonialsSection>
+    <TestimonialsSection class="mb-[260px]"></TestimonialsSection>
+    <FAQSection class="mb-[188px]"></FAQSection>
   </main>
   <FooterSection class="fixed bottom-0 w-full"></FooterSection>
 </template>
 
 <script>
-import NavbarSection from "./sections/NavbarSection.vue";
-import FooterSection from "./sections/FooterSection.vue";
-import HeroSection from "./sections/HeroSection.vue";
-import AboutSection from "./sections/AboutSection.vue";
-import TestimonialsSection from "./sections/TestimonialsSection.vue";
+import NavbarSection from "@/sections/NavbarSection.vue";
+import FooterSection from "@/sections/FooterSection.vue";
+import HeroSection from "@/sections/HeroSection.vue";
+import AboutSection from "@/sections/AboutSection.vue";
+import TestimonialsSection from "@/sections/TestimonialsSection.vue";
+import FAQSection from "@/sections/FAQSection.vue";
 export default {
   name: "App",
   components: {
@@ -22,6 +24,7 @@ export default {
     HeroSection,
     AboutSection,
     TestimonialsSection,
+    FAQSection,
   },
 };
 </script>
@@ -34,6 +37,7 @@ export default {
   --secondary: #4fa16c;
   --text-1: #535353;
   --text-2: #6a6a6a;
+  --text-3: #959595;
   --box-1: #fbfbfb;
   --border-1: #dadada;
 }

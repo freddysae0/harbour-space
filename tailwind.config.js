@@ -9,7 +9,9 @@ module.exports = {
         primary: "#685DC5",
         secondary: "#4fa16c",
         box: "#FBFBFB",
+        border: "#DADADA",
         text: {
+          300: "#959595",
           200: "#6A6A6A",
           100: "#535353",
         },
