@@ -17,27 +17,7 @@
       </div>
     </div>
 
-    <div
-      v-if="
-        timeUntil(HSData.scholarship.application_end_date)[0] == '-' &&
-        !staticContent
-      "
-      class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
-    >
-      <h3 class="text-text-200 font-apercu">Application closed</h3>
-    </div>
-    <div
-      v-if="
-        !timeUntil(HSData.scholarship.application_end_date)[0] == '-' &&
-        !staticContent
-      "
-      class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
-    >
-      <h3 class="card-title">Application closes in</h3>
-      <p class="card-date">
-        {{ timeUntil(HSData.scholarship.application_end_date) }}
-      </p>
-    </div>
+    <!-- Static content -->
     <div
       v-if="staticContent"
       class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
@@ -46,37 +26,69 @@
       <p class="card-date">6 Day : 22 Hrs : 56 Min : 13 Seg</p>
     </div>
 
+    <!-- According to API -->
+    <div v-else>
+      <div
+        v-if="hasOccurred(HSData.scholarship.application_end_date)"
+        class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
+      >
+        <h3 class="text-text-200 font-apercu">Application closed</h3>
+      </div>
+      <div
+        v-if="!hasOccurred(HSData.scholarship.application_end_date)"
+        class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
+      >
+        <h3 class="card-title">Application closes in</h3>
+        <p class="card-date">
+          {{ timeUntil(HSData.scholarship.application_end_date) }}
+        </p>
+      </div>
+    </div>
+
     <div
       class="card bg-white px-[25px] sm:px-[40px] p-[40px] flex h-fit relative"
     >
       <div class="flex flex-col w-full gap-[23px]">
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Location</h3>
-          <p v-if="!staticContent" class="card-text">
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">Bangkok</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
             {{ HSData.scholarship.location.name }}
           </p>
-          <p v-else class="card-text">Bangkok</p>
         </div>
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Start date</h3>
-          <p v-if="!staticContent" class="card-text">
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">30 June 2020</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
             {{ formatDate(HSData.scholarship.scholarship_start_date) }}
           </p>
-          <p v-else class="card-text">30 June 2020</p>
         </div>
       </div>
       <div class="flex flex-col w-full gap-[23px] ml-[20%]">
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Duration</h3>
-          <p v-if="!staticContent" class="card-text">
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">1 Year Full-Time</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
             {{ HSData.scholarship.duration }} Year Full-Time
           </p>
-          <p v-else class="card-text">1 Year Full-Time</p>
         </div>
 
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">End date</h3>
-          <p v-if="!staticContent" class="card-text">
+
+          <!-- Static content -->
+          <!-- According to API -->
+          <p v-if="staticContent" class="card-text">3 Aug 2020</p>
+          <p v-else class="card-text">
             {{
               formatDateWithAddedYears(
                 HSData.scholarship.scholarship_start_date,
@@ -84,7 +96,6 @@
               )
             }}
           </p>
-          <p v-else class="card-text">3 Aug 2020</p>
         </div>
       </div>
       <div class="background-decoration hidden lg:block"></div>
@@ -100,53 +111,25 @@ export default {
   name: "DeadlineHero",
   setup() {
     const store = useStore();
-    // Acceder al estado directamente
+
     const HSData = store.HSData;
     const staticContent = store.staticContent;
-    // Acceder a las acciones directamente
+    const hasOccurred = store.hasOccurred;
+    const timeUntil = store.timeUntil;
+    const formatDate = store.formatDate;
+    const formatDateWithAddedYears = store.formatDateWithAddedYears;
+
     const setHSData = store.setHSData;
 
     return {
       HSData,
       staticContent,
       setHSData,
+      hasOccurred,
+      timeUntil,
+      formatDate,
+      formatDateWithAddedYears,
     };
-  },
-  methods: {
-    timeUntil(targetDateString) {
-      const targetDate = new Date(targetDateString);
-      const now = new Date();
-
-      const diffInMs = targetDate - now;
-      const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      const hours = Math.floor(
-        (diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-      );
-      const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diffInMs % (1000 * 60)) / 1000);
-
-      return `${days} Day : ${hours} Hrs : ${minutes} Min : ${seconds} Seg`;
-    },
-    formatDate(dateString) {
-      const date = new Date(dateString);
-
-      const day = date.getDate();
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-
-      return `${day} ${month} ${year}`;
-    },
-    formatDateWithAddedYears(dateString, yearsToAdd) {
-      const date = new Date(dateString);
-
-      date.setFullYear(date.getFullYear() + yearsToAdd);
-
-      const day = date.getDate();
-      const month = date.toLocaleString("default", { month: "long" });
-      const year = date.getFullYear();
-
-      return `${day} ${month} ${year}`;
-    },
   },
   data: () => {
     return { ZeptolabLogo };

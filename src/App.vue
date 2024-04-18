@@ -1,13 +1,9 @@
 <template>
-  <div ref="loading" class="bg-primary z-50 fixed w-full h-full loading"></div>
+  <Loading :isLoading="isLoading"></Loading>
   <div v-if="!isLoading">
     <NavbarSection></NavbarSection>
     <main class="flex flex-col justify-center mb-28">
-      <HeroSection
-        :key="heroKey"
-        :hdata="hdata"
-        class="mb-[140px] md:mb-[60px]"
-      ></HeroSection>
+      <HeroSection :key="heroKey" class="mb-[140px] md:mb-[60px]"></HeroSection>
       <AboutSection class="mb-[240px]"></AboutSection>
       <TestimonialsSection
         class="mb-[20px] lg:mb-[200px]"
@@ -23,6 +19,7 @@ import axios from "axios";
 import NavbarSection from "@/sections/NavbarSection.vue";
 import FooterSection from "@/sections/FooterSection.vue";
 import HeroSection from "@/sections/HeroSection.vue";
+import Loading from "@/components/ui/LoadingUi.vue";
 import AboutSection from "@/sections/AboutSection.vue";
 import TestimonialsSection from "@/sections/TestimonialsSection.vue";
 import FAQSection from "@/sections/FAQSection.vue";
@@ -39,10 +36,10 @@ export default {
   },
   setup() {
     const store = useStore();
-    // Acceder al estado directamente
+
     const HSData = store.HSData;
     const staticContent = store.staticContent;
-    // Acceder a las acciones directamente
+
     const setHSData = store.setHSData;
     const setStaticContent = store.setStaticContent;
 
@@ -69,18 +66,7 @@ export default {
       this.heroKey++;
     },
   },
-  watch: {
-    isLoading(isActive) {
-      if (!this.$refs.loading) return;
-      if (isActive) {
-        this.$refs.loading.style.opacity = "1";
-        this.$refs.loading.style.pointerEvents = "all";
-      } else {
-        this.$refs.loading.style.opacity = "0";
-        this.$refs.loading.style.pointerEvents = "none";
-      }
-    },
-  },
+
   async mounted() {
     await this.fetchData();
   },
@@ -91,6 +77,7 @@ export default {
     AboutSection,
     TestimonialsSection,
     FAQSection,
+    Loading,
   },
 };
 </script>
@@ -129,10 +116,5 @@ export default {
 .card {
   border: 1px solid var(--border-1);
   border-radius: 8px;
-}
-
-.loading {
-  opacity: 1;
-  transition: opacity 1s;
 }
 </style>

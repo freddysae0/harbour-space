@@ -4,20 +4,26 @@
       class="absolute interaction-img sm:w-[180px] sm:h-[180px]"
       :src="InteractionImg"
     />
+
+    <!-- Static content -->
     <h1 v-if="staticContent" class="title-section">
       Interaction Design Apprenticeship
     </h1>
+    <!-- According to API -->
     <h1 v-else class="title-section">{{ HSData.scholarship.name }}</h1>
 
     <DeadlineHero class="lg:hidden mb-[36px]"></DeadlineHero>
     <h2 class="font-normal font-apercu px-[25px] lg:px-0">
       A fully funded work-study program to launch your tech career
     </h2>
+
+    <!-- Static content -->
     <p v-if="staticContent" class="px-[25px] lg:px-0">
       Harbour.Space has partnered with SCG to empower driven talent and
       eliminate the barriers to accessing exceptional education and career
       opportunities through a Masters Fellowship.
     </p>
+    <!-- According to API -->
     <p
       v-else
       v-for="(description, id) in HSData.scholarship.description"
@@ -47,10 +53,10 @@ export default {
   name: "InteractionHero",
   setup() {
     const store = useStore();
-    // Acceder al estado directamente
+
     const HSData = store.HSData;
     const staticContent = store.staticContent;
-    // Acceder a las acciones directamente
+
     const setHSData = store.setHSData;
 
     return {
