@@ -13,20 +13,20 @@
       <div
         v-for="testimonial in testimonials"
         :key="testimonial.id"
-        class="testimonial-card card min-w-[800px] snap-center"
+        class="testimonial-card card min-w-[335px] lg:min-w-[800px] snap-center"
       >
         <div
-          class="h-[149px] pl-[41px] pr-[86px] flex justify-between items-center bg-white"
+          class="h-[149px] pl-[25px] lg:pl-[41px] pr-[29px] lg:pr-[86px] flex justify-between items-center bg-white"
         >
           <div class="w-fit flex items-center">
             <div
               id="testimonial-avatar-box"
-              class="flex items-center w-[80px] h-[80px] overflow-hidden rounded-full"
+              class="flex items-center w-[48px] h-[48px] lg:w-[80px] lg:h-[80px] overflow-hidden rounded-full"
               ref="avatarBox"
             >
               <img
                 id="testimonial-avatar"
-                class="rounded-full w-[80px] h-[80px]"
+                class="rounded-full w-[48px] h-[48px] lg:w-[80px] lg:h-[80px]"
                 :src="IreneAvatar"
                 ref="avatarImg"
                 alt="Testimonial avatar"
@@ -36,7 +36,10 @@
             <div class="h-full ml-[21px] flex flex-col justify-center">
               <div class="testimonial-name"><span>Irene Pereyra</span></div>
               <div class="testimonial-job -mt-[3px]">
-                <span> Interaction Design Fellow ‘19</span>
+                <span class="hidden lg:block">
+                  Interaction Design Fellow ‘19</span
+                >
+                <span class="lg:hidden"> Research Lead, SCG</span>
               </div>
             </div>
           </div>
@@ -66,17 +69,39 @@
         </div>
       </div>
     </div>
+
+    <!-- PREVIOUS AND NEXT BUTTONS -->
+    <div
+      class="flex lg:hidden h-24 justify-end pr-[21px] sm:pr-[30px] md:pr-[50px]"
+    >
+      <div class="w-fit h-full flex gap-2 items-center">
+        <button
+          class="w-[48px] h-[48px] rounded-full border border-border flex justify-center items-center hover:animate-pulse"
+          @click="scrollTestimonialsLeft"
+        >
+          <img class="rotate-90 transition-all" :src="ArrowImg" alt="" />
+        </button>
+        <button
+          class="w-[48px] h-[48px] rounded-full border border-border flex justify-center items-center hover:animate-pulse"
+          @click="scrollTestimonialsRigth"
+        >
+          <img class="-rotate-90 transition-all" :src="ArrowImg" alt="" />
+        </button>
+      </div>
+    </div>
   </section>
 </template>
 
 <script>
 import IreneAvatar from "@/assets/testimonials/irene-avatar.png";
 import LinkedinImg from "@/assets/testimonials/linkedin.png";
+import ArrowImg from "@/assets/ui/arrow.png";
 export default {
   data: () => {
     return {
       IreneAvatar,
       LinkedinImg,
+      ArrowImg,
       testimonials: [0, 1, 2, 3, 4, 5, 6, 7, 8],
       scrollTimeout: null,
     };
@@ -90,12 +115,18 @@ export default {
           (window.innerWidth || document.documentElement.clientWidth)
       );
     },
-    scrollTestimonials() {
+    relocateScroll() {
       if (this.$refs.testimonialsContainer.scrollLeft < 1000) {
         this.$refs.testimonialsContainer.scrollLeft += 1000;
       }
 
       this.$refs.testimonialsContainer.scrollLeft = 1000;
+    },
+    scrollTestimonialsRigth() {
+      this.$refs.testimonialsContainer.scrollLeft += 200;
+    },
+    scrollTestimonialsLeft() {
+      this.$refs.testimonialsContainer.scrollLeft -= 200;
     },
     handleScroll() {
       // Clean the previous timer if exists
@@ -118,12 +149,13 @@ export default {
     },
   },
   mounted() {
-    this.scrollTestimonials();
+    this.relocateScroll();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/variables";
 .linkedin-icon {
   cursor: pointer;
   transition: all 0.2s;
@@ -142,30 +174,53 @@ export default {
 
 .background-decoration {
   top: 0px;
-  background-image: url("@/assets/hero/slab-background.png");
+  background: url("@/assets/hero/slab-background.png");
   background-size: 39.5px;
+  background-color: var(--primary);
+  background-blend-mode: multiply;
   gap: 0px;
   border: 1px solid #e6e6e6;
   width: 1120px;
-  height: 400px;
+  height: 257px;
   z-index: -1;
+
+  @media (min-width: $lg) {
+    height: 400px;
+  }
 }
 
 .textimonials-container {
   scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  // Hiding the scrollbar in:
+  // Firefox
+  scrollbar-width: none;
+  // Internet Explorer, Edge
+  -ms-overflow-style: none;
+  // Webkit -> Chrome, Safari
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 .testimonial-card {
   scroll-snap-align: center;
 }
 
 .testimonial-name {
-  font-family: "Apercu Pro";
   font-size: 16px;
   font-weight: 500;
-  line-height: 24px;
-  letter-spacing: -0.145454540848732px;
+  line-height: 22px;
+  letter-spacing: -0.16px;
   text-align: left;
-  color: #535353;
+  color: #685dc5;
+
+  font-family: "Apercu Pro";
+  @media (min-width: $lg) {
+    line-height: 24px;
+    letter-spacing: -0.145px;
+    color: #535353;
+  }
 }
 .testimonial-job {
   font-family: Apercu Pro;
@@ -179,12 +234,20 @@ export default {
 
 .testimonial-content {
   font-family: Apercu Pro;
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 300;
-  line-height: 35px;
-  letter-spacing: -0.18571428954601288px;
+  line-height: 29px;
+  letter-spacing: -0.218px;
   text-align: left;
   color: #535353;
+  padding-right: 25px;
+  padding-left: 25px;
+
+  @media (min-width: $lg) {
+    line-height: 35px;
+    letter-spacing: -0.185px;
+    font-size: 26px;
+  }
 }
 
 .testimonial-category {
@@ -194,6 +257,9 @@ export default {
   line-height: 24px;
   letter-spacing: -0.1599999964237213px;
   text-align: left;
+
   color: #535353;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 </style>

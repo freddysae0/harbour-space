@@ -1,5 +1,7 @@
 <template>
-  <footer class="bg-white px-[80px] flex flex-wrap gap-[64px] h-[86.08px]">
+  <footer
+    class="hidden 2xl:justify-center xl:flex bg-white px-[80px] flex-wrap gap-[64px] h-[86.08px]"
+  >
     <div
       v-for="item in items"
       :key="item.title"

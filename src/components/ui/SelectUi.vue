@@ -1,6 +1,6 @@
 <template>
   <button @click="handleClick">
-    <div class="cursor-pointer relative w-[235px] h-[58px]">
+    <div class="cursor-pointer relative w-full md:w-[235px] h-[58px]">
       <img
         ref="arrow"
         class="absolute right-[27px] top-[27px] z-20 arrow"
@@ -8,18 +8,20 @@
       />
       <div
         ref="select"
-        class="select absolute z-10 top-0 left-0 w-[235px] bg-white overflow-hidden border border-solid border-border rounded-[35px]"
+        class="select absolute z-10 top-0 left-0 w-full md:w-[235px] bg-white overflow-hidden border border-solid border-border rounded-[35px]"
       >
-        <div class="text-btn w-full h-[58px] flex items-center pl-[24px]">
-          <span>{{ text }}</span>
-        </div>
+        <div ref="inner" class="w-fit">
+          <div class="text-btn w-full h-[58px] flex items-center pl-[24px]">
+            <span>{{ text }}</span>
+          </div>
 
-        <div
-          v-for="(selectable, i) in selectables"
-          :key="i"
-          class="text-option w-full h-[58px] flex hover:text-primary items-center pl-[24px]"
-        >
-          <span>{{ selectable.title }}</span>
+          <div
+            v-for="(selectable, i) in selectables"
+            :key="i"
+            class="text-option w-full h-[58px] flex hover:text-primary items-center pl-[24px]"
+          >
+            <span>{{ selectable.title }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -34,6 +36,7 @@ export default {
     return {
       ArrowIcon,
       fitSize: "",
+      defaultHeight: 58,
     };
   },
   props: {
@@ -46,33 +49,23 @@ export default {
     },
   },
   methods: {
-    getFitContentHeights() {
-      if (!this.$refs.select) return;
-      //Saving the previous height value
-      let previousState = this.$refs.select.getBoundingClientRect().height;
-
-      //Looking and saving what height will have with fit content
-      this.$refs.select.style.height = "fit-content";
-      let nextState = this.$refs.select.getBoundingClientRect().height;
-      this.fitSize = `${Number.parseInt(nextState)}px`;
-
-      //returning to the previous size
-      this.$refs.select.style.height = `${previousState}px`;
-    },
     handleClick() {
       if (!this.$refs.select) return;
-      if (this.$refs.select.style.height == "58px") {
+      if (
+        this.$refs.select.style.height == `${this.defaultHeight}px` ||
+        this.$refs.select.style.height == ""
+      ) {
         this.$refs.arrow.style.transform = "rotateX(180deg)";
-        this.$refs.select.style.height = this.fitSize;
+        this.$refs.select.style.height = `${
+          this.$refs.inner.getBoundingClientRect().height + 20
+        }px`;
       } else {
         this.$refs.arrow.style.transform = "rotateX(0deg)";
-        this.$refs.select.style.height = "58px";
+        this.$refs.select.style.height = `${this.defaultHeight}px`;
       }
     },
   },
-  mounted() {
-    this.getFitContentHeights();
-  },
+  mounted() {},
 };
 </script>
 
