@@ -1,39 +1,63 @@
 <template>
-  <section id="faq" class="flex flex-col items-center">
-    <div class="w-[1024px] flex flex-col gap-[64.5px]">
-      <div class="flex items-center justify-between">
+  <section id="faq" class="flex flex-col items-center px-[43px]">
+    <div class="w-full flex flex-col gap-[15px] md:gap-[64.5px] max-w-[1024px]">
+      <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-0"
+      >
         <div class="">
-          <h1 class="title-section w-[441px]">Frequently asked questions</h1>
+          <h1 class="title-section w-[360px] capitalize md:normal-case">
+            Frequently asked questions
+          </h1>
         </div>
-        <div class="flex items-center gap-[24px]">
+        <div
+          class="flex flex-col md:flex-row md:items-center gap-2 md:gap-[24px]"
+        >
           <p class="filter-by">Filter by:</p>
           <SelectUi
+            class="hidden md:block"
             :selectables="selectables"
             text="Program conditions"
           ></SelectUi>
+          <SelectUi
+            class="md:hidden"
+            :selectables="selectables"
+            text="Program"
+          ></SelectUi>
         </div>
       </div>
-      <div class="border-t border-border">
+      <div class="lg:border-t border-border">
         <div
           v-for="(question, i) in questions"
           :key="i"
-          ref="questionContainer"
-          class="question-container w-full relative flex py-[65px] border-b border-solid border-border pt-[40px] overflow-hidden"
+          class="question-container w-full flex items-center md:items-start py-2 border-b border-solid border-border md:pt-[40px]"
         >
           <!-- h-fit for expand -->
-          <div class="w-[361px]">
+          <div class="w-[361px] hidden md:block">
             <h3 class="program-condition-font">Program conditions</h3>
           </div>
-          <div class="w-[559px] program-content-font">
-            <span class="font-medium">{{ question.title }}</span>
-            <div class="mt-12" v-html="question.answer"></div>
+          <div class="w-full program-content-font h-fit">
+            <div class="relative">
+              <h3
+                @click="activateExpandAnimation(i)"
+                class="max-w-[200px] sm:max-w-[800px] md:max-w-full cursor-pointer hover:text-primary"
+              >
+                {{ question.title }}
+              </h3>
+              <div
+                class="absolute h-full flex items-center right-0 md:right-[34px] top-0"
+              >
+                <ExpandFAQ
+                  :startAnimation="startAnimation[i]"
+                  :i="i"
+                  class="hover:animate-pulse"
+                  @active="handleExpand"
+                />
+              </div>
+            </div>
+            <div ref="outer" class="h-0 transition-expand overflow-hidden">
+              <div ref="inner" class="mt-12" v-html="question.answer"></div>
+            </div>
           </div>
-
-          <ExpandFAQ
-            :i="i"
-            class="absolute right-[34px] top-[34px]"
-            @active="handleExpand"
-          />
         </div>
       </div>
     </div>
@@ -46,6 +70,7 @@ import ExpandFAQ from "@/components/faq/ExpandFAQ.vue";
 export default {
   data: () => {
     return {
+      startAnimation: [],
       selectables: [
         { title: "All" },
         { title: "Admission" },
@@ -168,39 +193,51 @@ export default {
         },
       ],
       fitSizes: [],
+      isOpenQuestion: [],
+      originalHeight: null,
     };
   },
   methods: {
-    getFitContentHeights() {
-      if (!this.$refs.questionContainer) return;
-      this.$refs.questionContainer.map((question, i) => {
-        //Saving the previous height value
-        let previousState = question.getBoundingClientRect().height;
-
-        //Looking and saving what height will have with fit content
-        question.style.height = "fit-content";
-        let nextState = question.getBoundingClientRect().height;
-        this.fitSizes[i] = `${nextState}px`;
-
-        //returning to the previous size
-        question.style.height = `${previousState}px`;
-      });
+    activateExpandAnimation(i) {
+      this.startAnimation[i] = !this.startAnimation[i];
     },
     handleExpand(payload) {
       console.log("active", payload);
-      if (!this.$refs.questionContainer) {
-        return;
+
+      if (!this.$refs.inner || !this.$refs.outer) return;
+      this.isOpenQuestion[payload.i] = payload.isActive;
+
+      if (payload.isActive) {
+        console.log(this.$refs.inner[0].getBoundingClientRect().height);
+        this.$refs.outer[payload.i].style.height = `${
+          this.$refs.inner[payload.i].getBoundingClientRect().height +
+          this.getOriginalHeight() +
+          100
+        }px`;
       }
-      console.log(this.$refs.questionContainer[payload.i].style.height);
-      if (
-        this.$refs.questionContainer[payload.i].style.height == "116px" ||
-        this.$refs.questionContainer[payload.i].style.height == ""
-      ) {
-        this.$refs.questionContainer[payload.i].style.height =
-          this.fitSizes[payload.i];
-      } else {
-        this.$refs.questionContainer[payload.i].style.height = "116px";
+
+      if (!payload.isActive) {
+        this.$refs.outer[
+          payload.i
+        ].style.height = `${this.getOriginalHeight()}px`;
       }
+    },
+    getOriginalHeight() {
+      if (window.innerWidth <= 768) return 0;
+      else return 40;
+    },
+    updateQuestionHeights() {
+      if (!this.$refs.outer) return;
+      this.$refs.outer.forEach((question, i) => {
+        const isOpen = this.isOpenQuestion[i];
+        const innerHeight =
+          this.$refs.inner && this.$refs.inner[i]
+            ? this.$refs.inner[i].getBoundingClientRect().height
+            : 0;
+        question.style.height = isOpen
+          ? `${innerHeight + this.getOriginalHeight() + 100}px`
+          : this.getOriginalHeight();
+      });
     },
   },
   components: {
@@ -208,15 +245,26 @@ export default {
     ExpandFAQ,
   },
   mounted() {
-    this.getFitContentHeights();
+    window.addEventListener("resize", this.updateQuestionHeights);
+  },
+  beforeUnmount() {
+    window.removeEventListener("resize", this.updateQuestionHeights);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+@import "@/variables";
 .question-container {
   transition: all 1s;
-  height: 116px;
+  min-height: 65px;
+
+  @media (min-width: $md) {
+    min-height: 116px;
+  }
+}
+.transition-expand {
+  transition: all 1s;
 }
 .filter-by {
   font-family: Apercu Pro;
@@ -224,8 +272,11 @@ export default {
   font-weight: 300;
   line-height: 24px;
   letter-spacing: -0.1599999964237213px;
-  text-align: right;
+  text-align: left;
   color: #6a6a6a;
+  @media (min-width: $md) {
+    text-align: right;
+  }
 }
 .program-condition-font {
   font-family: Apercu Pro;
@@ -238,12 +289,41 @@ export default {
 }
 
 .program-content-font {
-  font-family: Apercu Pro;
-  font-size: 22px;
+  font-family: "Apercu Pro";
+  font-size: 16px;
   font-weight: 300;
-  line-height: 32px;
-  letter-spacing: -0.33000001311302185px;
+  letter-spacing: -0.27px;
   text-align: left;
+
   color: #535353;
+  @media (min-width: $lg) {
+    line-height: 32px;
+    font-size: 18px;
+    font-size: 22px;
+
+    letter-spacing: -0.33px;
+  }
+
+  h3 {
+    transition: color 0.2s;
+    font-family: "Apercu Pro";
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 32px;
+    letter-spacing: -0.27px;
+    text-align: left;
+
+    color: #535353;
+    &:hover {
+      color: var(--primary);
+    }
+    @media (min-width: $lg) {
+      line-height: 32px;
+      font-weight: 500;
+      font-size: 22px;
+
+      letter-spacing: -0.33px;
+    }
+  }
 }
 </style>

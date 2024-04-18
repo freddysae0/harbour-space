@@ -3,17 +3,17 @@
     <div
       ref="bodyBtn"
       @click="handleButtom"
-      class="expand-faq w-12 h-12 rounded-full flex justify-center items-center relative"
+      class="expand-faq w-8 h-8 md:w-12 md:h-12 rounded-full flex justify-center items-center relative"
     >
       <div
         ref="center"
-        class="center font-apercu font-medium bg-white w-12 h-12 rounded-full scale-95 flex justify-center items-center"
+        class="center font-apercu font-medium bg-white w-8 h-8 md:w-12 md:h-12 rounded-full scale-95 flex justify-center items-center"
       >
-        +
+        <span class="mr-[1px] mb-[0px] text-[20px] md:text-base">+</span>
       </div>
       <span
         ref="minus"
-        class="minus absolute font-apercu font-medium text-white f top-[12px] left-[20px]"
+        class="minus absolute font-apercu font-medium text-white md:top-[12px] md:left-[20px]"
         >-</span
       >
     </div>
@@ -33,6 +33,15 @@ export default {
   props: {
     i: {
       type: Number,
+    },
+    startAnimation: {
+      type: Boolean,
+    },
+  },
+  watch: {
+    startAnimation(payload) {
+      console.log(payload);
+      this.handleButtom();
     },
   },
   methods: {
