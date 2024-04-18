@@ -5,7 +5,7 @@
         class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-0"
       >
         <div class="">
-          <h1 class="title-section w-[360px] capitalize md:normal-case">
+          <h1 class="title-section w-full sm:w-[360px] capitalize md:normal-case">
             Frequently asked questions
           </h1>
         </div>
@@ -49,7 +49,6 @@
                 <ExpandFAQ
                   :startAnimation="startAnimation[i]"
                   :i="i"
-                  class="hover:animate-pulse"
                   @active="handleExpand"
                 />
               </div>
