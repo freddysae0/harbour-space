@@ -1,9 +1,9 @@
 <template>
   <NavbarSection></NavbarSection>
   <main class="flex flex-col justify-center mb-28">
-    <HeroSection class="mb-[60px]"></HeroSection>
-    <AboutSection class="mb-[260px]"></AboutSection>
-    <TestimonialsSection class="mb-[260px]"></TestimonialsSection>
+    <HeroSection class="mb-[140px] md:mb-[60px]"></HeroSection>
+    <AboutSection class="mb-[240px]"></AboutSection>
+    <TestimonialsSection class="mb-[20px] lg:mb-[200px]"></TestimonialsSection>
     <FAQSection class="mb-[188px]"></FAQSection>
   </main>
   <FooterSection class="fixed bottom-0 w-full"></FooterSection>
