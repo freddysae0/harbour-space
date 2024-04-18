@@ -4,20 +4,32 @@
       class="absolute interaction-img sm:w-[180px] sm:h-[180px]"
       :src="InteractionImg"
     />
-    <h1 class="title-section">Interaction Design Apprenticeship</h1>
+    <h1 v-if="staticContent" class="title-section">
+      Interaction Design Apprenticeship
+    </h1>
+    <h1 v-else class="title-section">{{ HSData.scholarship.name }}</h1>
 
     <DeadlineHero class="lg:hidden mb-[36px]"></DeadlineHero>
     <h2 class="font-normal font-apercu px-[25px] lg:px-0">
       A fully funded work-study program to launch your tech career
     </h2>
-    <p class="px-[25px] lg:px-0">
+    <p v-if="staticContent" class="px-[25px] lg:px-0">
       Harbour.Space has partnered with SCG to empower driven talent and
       eliminate the barriers to accessing exceptional education and career
       opportunities through a Masters Fellowship.
     </p>
+    <p
+      v-else
+      v-for="(description, id) in HSData.scholarship.description"
+      :key="id"
+      class="px-[25px] lg:px-0"
+    >
+      {{ description.data }}
+    </p>
     <h2 class="px-[25px] lg:px-0">
       Position:
-      <span> Marketing Performance </span>
+      <span v-if="staticContent">Marketing Performance </span>
+      <span v-else> {{ HSData.scholarship.position }} </span>
     </h2>
     <div class="px-[25px] lg:px-0">
       <ButtonUI></ButtonUI>
@@ -29,9 +41,24 @@
 import ButtonUI from "@/components/ui/ButtonUi.vue";
 import InteractionImg from "@/assets/hero/interaction-design.png";
 import DeadlineHero from "@/components/hero/DeadlineHero.vue";
+import { useStore } from "@/stores/index";
 
 export default {
   name: "InteractionHero",
+  setup() {
+    const store = useStore();
+    // Acceder al estado directamente
+    const HSData = store.HSData;
+    const staticContent = store.staticContent;
+    // Acceder a las acciones directamente
+    const setHSData = store.setHSData;
+
+    return {
+      HSData,
+      staticContent,
+      setHSData,
+    };
+  },
   data: () => {
     return { InteractionImg };
   },
