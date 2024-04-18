@@ -10,6 +10,7 @@
       ref="testimonialsContainer"
       @scroll="handleScroll"
     >
+      <div class="ml-[600px]"></div>
       <div
         v-for="testimonial in testimonials"
         :key="testimonial.id"
@@ -68,6 +69,7 @@
           </div>
         </div>
       </div>
+      <div class="mr-[600px]"></div>
     </div>
 
     <!-- PREVIOUS AND NEXT BUTTONS -->
@@ -102,7 +104,7 @@ export default {
       IreneAvatar,
       LinkedinImg,
       ArrowImg,
-      testimonials: [0, 1, 2, 3, 4, 5, 6, 7, 8],
+      testimonials: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
       scrollTimeout: null,
     };
   },
