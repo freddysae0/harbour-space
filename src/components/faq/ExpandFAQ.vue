@@ -9,7 +9,7 @@
         ref="center"
         class="center font-apercu font-medium bg-white w-8 h-8 md:w-12 md:h-12 rounded-full scale-95 flex justify-center items-center"
       >
-        <span class="mr-[1px] mb-[0px] text-[20px] md:text-base">+</span>
+        <span class="w-fit text-[20px] md:text-base">+</span>
       </div>
       <span
         ref="minus"
