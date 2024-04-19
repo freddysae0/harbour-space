@@ -147,7 +147,6 @@ export default {
         this.$refs.chooseApi.style.filter = "none";
         this.$refs.chooseApi.style.cursor = "auto";
         this.$refs.box.style.cursor = "auto";
-        this.$refs.box.style.pointerEvents = "all";
       }
     },
   },
