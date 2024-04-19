@@ -120,7 +120,6 @@ export default {
       this.setStaticContent(false);
       this.isLoading = true;
       await this.fetchData(this.apiListUrl + this.ApiList[i].slug);
-      this.isLoading = false;
       this.$emit("selected", "api");
       this.isChoosing = false;
     },
@@ -148,7 +147,6 @@ export default {
         this.$refs.chooseApi.style.filter = "none";
         this.$refs.chooseApi.style.cursor = "auto";
         this.$refs.box.style.cursor = "auto";
-        this.$refs.box.style.pointerEvents = "all";
       }
     },
   },

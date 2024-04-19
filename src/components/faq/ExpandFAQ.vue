@@ -9,7 +9,7 @@
         ref="center"
         class="center font-apercu font-medium bg-white w-8 h-8 md:w-12 md:h-12 rounded-full scale-95 flex justify-center items-center"
       >
-        <span class="mr-[1px] mb-[0px] text-[20px] md:text-base">+</span>
+        <span class="w-fit text-[20px] md:text-base">+</span>
       </div>
       <span
         ref="minus"
@@ -83,6 +83,9 @@ export default {
       const interval = setInterval(() => {
         if (i == 36) {
           clearInterval(interval);
+          this.$refs.bodyBtn.style.background =
+            "conic-gradient(from 0deg,var(--primary) 360deg,var(--border-1) 0deg)";
+
           setTimeout(this.startSecondAnimation, 400);
         }
         i++;
@@ -93,6 +96,8 @@ export default {
     },
 
     animateBorderReverse() {
+      if (!this.$refs.bodyBtn) return;
+
       let i = 36;
       let j = 0;
       const interval = setInterval(() => {
@@ -100,7 +105,8 @@ export default {
           clearInterval(interval);
           this.animationRunning = false;
           this.isActive = false;
-
+          this.$refs.bodyBtn.style.background =
+            "conic-gradient(from 0deg,var(--primary) 0deg,var(--border-1) 0deg)";
           this.$emit("active", this.emitContent());
         }
         const easedProgress = this.easeInOutQuad(i / 36) * 360;
