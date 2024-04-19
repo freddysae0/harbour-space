@@ -13,7 +13,7 @@
       </div>
       <span
         ref="minus"
-        class="minus absolute font-apercu font-medium text-white md:top-[12px] md:left-[20px]"
+        class="minus absolute text-[18px] font-apercu font-medium text-white"
         >-</span
       >
     </div>
