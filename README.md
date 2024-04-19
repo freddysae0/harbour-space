@@ -13,14 +13,14 @@ You can view the project live at [Freddy's HS Challenge](https://hschallenge.net
 
 Upon startup, the site prompts the user to select an API for a specific scholarship. Due to time constraints, the API is only consumed and displayed in the first section, [HeroSection.vue](./src/sections/HeroSection.vue). However, data handling for displaying it throughout the project is implemented using [Pinia](https://pinia.vuejs.org/).
 
-The API selection is located in the `/src/api.js` file:
+The API base url is located in the `/src/api.js` file:
 
 ```js
 export const apiListUrl =
   "https://pre-prod.harbour.space/api/v1/scholarship_pages/";
 ```
 
-This route indicates the different APIs available to the user, as shown in the following image:
+The fetching to this route indicates us the different APIs available that we can show to the user, as shown in the following image:
 
 ![Choose Api](./readme/choose-api.png)
 
