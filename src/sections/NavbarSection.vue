@@ -27,7 +27,7 @@
 <script>
 import ToggleIconMobile from "@/assets/navbar/toggle-mobile.png";
 import ToggleIconDesktop from "@/assets/navbar/toggle-desktop.png";
-import HSLogo from "@/assets/hs-logo.png";
+import HSLogo from "@/assets/logo-white.svg";
 export default {
   name: "NavbarComponent",
   data() {
