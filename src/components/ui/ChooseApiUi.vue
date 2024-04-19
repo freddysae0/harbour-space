@@ -13,10 +13,7 @@
       <p
         class="font text-sm md:text-base lg:text-lg text-white sm:text-center font-normal"
       >
-        You can select one of the available APIs to see its content consumed in
-        the first section of the page. You can also choose to see the static
-        content. Note that all the avaliable APIs aren't full, if you want to
-        see the correct design use the static content design.
+        You can select one of the available APIs to see its content consumed in the first section of the page. You can also choose to see the static content. Note that all the available APIs aren't full, if you want to see the correct design use the static content design.
       </p>
       <div
         ref="box"
