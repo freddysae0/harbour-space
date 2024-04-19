@@ -6,7 +6,8 @@
     <div
       class="container md:max-w-[800px] lg:max-w-[900px] font-apercu flex flex-col sm:items-center"
     >
-      <h1 class="font-extrabold text-xl lg:text-2xl text-white">
+      <img :src="hsLogo" width="250" class="mb-3" />
+      <h1 class="font-extrabold text-xl lg:text-2xl mt-2 text-white">
         Select your favorite scholarship
       </h1>
       <p
@@ -58,7 +59,7 @@
 
 <script>
 import axios from "axios";
-
+import hsLogo from "@/assets/logo-white.svg";
 import { useStore } from "@/stores/index";
 import { apiListUrl } from "@/api";
 export default {
@@ -89,6 +90,7 @@ export default {
       isChoosing: true,
       isLoading: false,
       apiListUrl: apiListUrl,
+      hsLogo,
     };
   },
   methods: {
