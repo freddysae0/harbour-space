@@ -13,7 +13,10 @@
       <p
         class="font text-sm md:text-base lg:text-lg text-white sm:text-center font-normal"
       >
-        You can select one of the available APIs to see its content consumed in the first section of the page. You can also choose to see the static content. Note that all the available APIs aren't full, if you want to see the correct design use the static content design.
+        You can select one of the available APIs to see its content consumed in
+        the first section of the page. You can also choose to see the static
+        content. Note that all the available APIs aren't full, if you want to
+        see the correct design use the static content design.
       </p>
       <div
         ref="box"
@@ -94,7 +97,6 @@ export default {
     removeLastBorder() {
       const lastIndex = this.ApiList.length - 1;
       const lastElementRef = this.$refs[`chooseApi-${lastIndex}`][0];
-      console.log(lastElementRef);
       if (lastElementRef) {
         lastElementRef.classList.remove("border-b");
       }
@@ -133,7 +135,6 @@ export default {
       }
     },
     isLoading(isLoading) {
-      console.log("cambio!!");
       if (!this.$refs.chooseApi || !this.$refs.box) return;
       if (isLoading) {
         this.$refs.chooseApi.style.filter = "blur(3px)";

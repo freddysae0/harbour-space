@@ -39,8 +39,7 @@ export default {
     },
   },
   watch: {
-    startAnimation(payload) {
-      console.log(payload);
+    startAnimation() {
       this.handleButtom();
     },
   },

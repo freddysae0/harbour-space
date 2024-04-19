@@ -5,7 +5,9 @@
         class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-0"
       >
         <div class="">
-          <h1 class="title-section w-full sm:w-[360px] capitalize md:normal-case">
+          <h1
+            class="title-section w-full sm:w-[360px] capitalize md:normal-case"
+          >
             Frequently asked questions
           </h1>
         </div>
@@ -201,13 +203,10 @@ export default {
       this.startAnimation[i] = !this.startAnimation[i];
     },
     handleExpand(payload) {
-      console.log("active", payload);
-
       if (!this.$refs.inner || !this.$refs.outer) return;
       this.isOpenQuestion[payload.i] = payload.isActive;
 
       if (payload.isActive) {
-        console.log(this.$refs.inner[0].getBoundingClientRect().height);
         this.$refs.outer[payload.i].style.height = `${
           this.$refs.inner[payload.i].getBoundingClientRect().height +
           this.getOriginalHeight() +

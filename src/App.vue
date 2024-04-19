@@ -71,7 +71,6 @@ export default {
         this.ApiList = data.slice(0, 10);
         this.API = this.ApiListUrl + this.ApiList[0].slug;
         this.isLoadingApiList = false;
-        console.log(this.ApiList);
       } catch (error) {
         this.fetchingError = true;
       }
