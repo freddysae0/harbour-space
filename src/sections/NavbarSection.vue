@@ -5,7 +5,7 @@
   >
     <!-- Logo -->
     <div class="flex gap-2 items-center">
-      <img :src="HSLogo" class="h-[25px]" />
+      <img :src="HSLogo" class="h-[15px]" />
       <p class="text-[11px] md:text-xs text-white font-normal">
         /INTERACTION DESIGN
       </p>
