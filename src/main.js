@@ -1,5 +1,11 @@
 import { createApp } from "vue";
+import { createPinia } from "pinia";
 import App from "./App.vue";
 import "./index.css";
 
-createApp(App).mount("#app");
+const app = createApp(App);
+
+// Pinia
+app.use(createPinia());
+
+app.mount("#app");

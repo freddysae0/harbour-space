@@ -16,9 +16,33 @@
         <span class="powered-by-title">Zeptolab</span>
       </div>
     </div>
-    <div class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4">
+
+    <!-- Static content -->
+    <div
+      v-if="staticContent"
+      class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
+    >
       <h3 class="card-title">Application closes in</h3>
       <p class="card-date">6 Day : 22 Hrs : 56 Min : 13 Seg</p>
+    </div>
+
+    <!-- According to API -->
+    <div v-else>
+      <div
+        v-if="hasOccurred(HSData.scholarship.application_end_date)"
+        class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
+      >
+        <h3 class="text-text-200 font-apercu">Application closed</h3>
+      </div>
+      <div
+        v-if="!hasOccurred(HSData.scholarship.application_end_date)"
+        class="card px-[25px] sm:px-[40px] py-[25px] flex flex-col gap-4"
+      >
+        <h3 class="card-title">Application closes in</h3>
+        <p class="card-date">
+          {{ timeUntil(HSData.scholarship.application_end_date) }}
+        </p>
+      </div>
     </div>
 
     <div
@@ -27,22 +51,51 @@
       <div class="flex flex-col w-full gap-[23px]">
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Location</h3>
-          <p class="card-text">Bangkok</p>
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">Bangkok</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
+            {{ HSData.scholarship.location.name }}
+          </p>
         </div>
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Start date</h3>
-          <p class="card-text">30 June 2020</p>
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">30 June 2020</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
+            {{ formatDate(HSData.scholarship.scholarship_start_date) }}
+          </p>
         </div>
       </div>
       <div class="flex flex-col w-full gap-[23px] ml-[20%]">
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">Duration</h3>
-          <p class="card-text">1 Year Full-Time</p>
+
+          <!-- Static content -->
+          <p v-if="staticContent" class="card-text">1 Year Full-Time</p>
+          <!-- According to API -->
+          <p v-else class="card-text">
+            {{ HSData.scholarship.duration }} Year Full-Time
+          </p>
         </div>
 
         <div class="flex flex-col justify-center h-full min-h-[49px]">
           <h3 class="card-subtitle">End date</h3>
-          <p class="card-text">3 Aug 2020</p>
+
+          <!-- Static content -->
+          <!-- According to API -->
+          <p v-if="staticContent" class="card-text">3 Aug 2020</p>
+          <p v-else class="card-text">
+            {{
+              formatDateWithAddedYears(
+                HSData.scholarship.scholarship_start_date,
+                1
+              )
+            }}
+          </p>
         </div>
       </div>
       <div class="background-decoration hidden lg:block"></div>
@@ -52,8 +105,32 @@
 
 <script>
 import ZeptolabLogo from "@/assets/hero/zeptolab-logo.png";
+import { useStore } from "@/stores/index";
+
 export default {
   name: "DeadlineHero",
+  setup() {
+    const store = useStore();
+
+    const HSData = store.HSData;
+    const staticContent = store.staticContent;
+    const hasOccurred = store.hasOccurred;
+    const timeUntil = store.timeUntil;
+    const formatDate = store.formatDate;
+    const formatDateWithAddedYears = store.formatDateWithAddedYears;
+
+    const setHSData = store.setHSData;
+
+    return {
+      HSData,
+      staticContent,
+      setHSData,
+      hasOccurred,
+      timeUntil,
+      formatDate,
+      formatDateWithAddedYears,
+    };
+  },
   data: () => {
     return { ZeptolabLogo };
   },
