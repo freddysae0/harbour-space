@@ -1,5 +1,11 @@
 <template>
-  <Loading :isLoading="isLoading"></Loading>
+  <Error v-if="fetchingError"></Error>
+  <ChooseApi
+    @connectivityError="fetchingError = true"
+    @selected="handleSelection"
+    v-if="!isLoadingApiList"
+    :ApiList="ApiList"
+  ></ChooseApi>
   <div v-if="!isLoading">
     <NavbarSection></NavbarSection>
     <main class="flex flex-col justify-center mb-28">
@@ -19,19 +25,26 @@ import axios from "axios";
 import NavbarSection from "@/sections/NavbarSection.vue";
 import FooterSection from "@/sections/FooterSection.vue";
 import HeroSection from "@/sections/HeroSection.vue";
-import Loading from "@/components/ui/LoadingUi.vue";
+import ChooseApi from "@/components/ui/ChooseApiUi.vue";
+import Error from "@/components/ui/ErrorUi.vue";
 import AboutSection from "@/sections/AboutSection.vue";
 import TestimonialsSection from "@/sections/TestimonialsSection.vue";
 import FAQSection from "@/sections/FAQSection.vue";
+
 import { useStore } from "@/stores/index";
+import { apiListUrl } from "@/api";
 
 export default {
   name: "App",
   data: () => {
     return {
       isLoading: true,
+      isLoadingApiList: true,
       heroKey: 1,
-      API: "https://pre-prod.harbour.space/api/v1/scholarship_pages/data-science-apprenticeship-zeptolab",
+      ApiListUrl: apiListUrl,
+      ApiList: [],
+      API: "",
+      fetchingError: false,
     };
   },
   setup() {
@@ -51,14 +64,19 @@ export default {
     };
   },
   methods: {
-    async fetchData() {
+    async fetchApiList() {
       try {
-        const { data } = await axios.get(this.API);
-        this.setHSData(data);
-        this.isLoading = false;
+        const { data } = await axios(this.ApiListUrl);
+        this.ApiList = data;
+        this.API = this.ApiListUrl + this.ApiList[0].slug;
+        this.isLoadingApiList = false;
+        console.log(this.ApiList);
       } catch (error) {
-        console.log("There was an error fetching the data");
+        this.fetchingError = true;
       }
+    },
+    handleSelection() {
+      this.isLoading = false;
     },
 
     toggleToStaticOrApi() {
@@ -68,7 +86,8 @@ export default {
   },
 
   async mounted() {
-    await this.fetchData();
+    await this.fetchApiList();
+    /* await this.fetchData(); */
   },
   components: {
     NavbarSection,
@@ -77,7 +96,8 @@ export default {
     AboutSection,
     TestimonialsSection,
     FAQSection,
-    Loading,
+    ChooseApi,
+    Error,
   },
 };
 </script>
