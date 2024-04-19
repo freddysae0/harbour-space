@@ -67,7 +67,8 @@ export default {
     async fetchApiList() {
       try {
         const { data } = await axios(this.ApiListUrl);
-        this.ApiList = data;
+
+        this.ApiList = data.slice(0, 10);
         this.API = this.ApiListUrl + this.ApiList[0].slug;
         this.isLoadingApiList = false;
         console.log(this.ApiList);
